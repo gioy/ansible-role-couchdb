@@ -1,4 +1,8 @@
 ---
+- fail:
+    msg: "this role doesn't support ansible_os_family different from {{ ansible_os_family }}."
+  when: ansible_os_family != "Debian"
+
 # Variable setup.
 - name: Include OS-specific variables.
   include_vars: "{{ ansible_os_family }}.yml"
