@@ -1,2 +1,2 @@
 ---
-__couchdb_local_conf_path: "/etc/couchdb/local.d"
+__couchdb_local_conf_path: "/opt/couchdb/etc"
