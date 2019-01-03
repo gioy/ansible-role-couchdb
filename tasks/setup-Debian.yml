@@ -1,10 +1,26 @@
 ---
-- name: Update apt cache.
-  apt: update_cache=yes cache_valid_time=86400
 
-- name: Ensure couchdb is installed.
+- name: Add couchdb apt key.
+  apt_key:
+    url: https://couchdb.apache.org/repo/bintray-pubkey.asc
+    state: present
+
+- name: Add couchdb repository.
+  apt_repository:
+    repo: "deb https://apache.bintray.com/couchdb-deb {{ansible_distribution_release}} main"
+    state: present
+    update_cache: true
+
+- name: Ensure latest couchdb is installed.
   apt:
-    name: "{{ item }}"
+    name: couchdb
     state: installed
-  with_items:
-    - couchdb
+  when: couchdb_version == 'latest'
+
+- name: Ensure couchdb version {{couchdb_version}} is installed.
+  apt:
+    name: "couchdb={{couchdb_version}}"
+    state: installed
+  when: couchdb_version != 'latest'
+
+
